@@ -9,7 +9,6 @@ AppState reducer(AppState prevState, dynamic action) {
 
   if (action is SearchKeyWord) {
     newState.searchKeyWord = action.payload;
-    print("key=>${newState.searchKeyWord}");
   }
 
   if (action is AmazonResults) {
@@ -23,6 +22,7 @@ AppState reducer(AppState prevState, dynamic action) {
 
   if (action is GetResults) {
     getData() async {
+      print("Fetching Data.....");
       String url =
           "https://compareprice-flask.herokuapp.com/api/getPriceDetails?searchKeyWord=${newState.searchKeyWord}";
       Response response = await get(url);
@@ -32,7 +32,7 @@ AppState reducer(AppState prevState, dynamic action) {
       // print(results["amazonResults"]);
       amazonResults = results["amazonResults"];
       newState.amazonResults = amazonResults;
-      print(newState.amazonResults);
+      print("Got Results !!");
     }
 
     getData();

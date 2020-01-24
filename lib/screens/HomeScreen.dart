@@ -55,7 +55,18 @@ class _HomeScreenState extends State<HomeScreen>
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
-                  color: Color(0xFF32A060),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 35.0, // soften the shadow
+                      spreadRadius: 1.0, //extend the shadow
+                      offset: Offset(
+                        1.0, // Move to right 10  horizontally
+                        1.0, // Move to bottom 10 Vertically
+                      ),
+                    )
+                  ],
+                  color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30.0),
@@ -77,14 +88,14 @@ class _HomeScreenState extends State<HomeScreen>
                           Text(
                             'FROM',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 15.0,
                             ),
                           ),
                           Text(
                             '${data["price"]}',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 25.0,
                               fontWeight: FontWeight.w600,
                             ),
@@ -101,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen>
                           Text(
                             "AMAZON",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 15.0,
                             ),
                           ),
@@ -109,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen>
                           Text(
                             "${data["productName"]}",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontSize: 15.0,
                               fontWeight: FontWeight.w600,
                             ),
@@ -148,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen>
       converter: (store) => store.state,
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xFFFAFAFA),
           body: AnnotatedRegion<SystemUiOverlayStyle>(
             value: SystemUiOverlayStyle.dark,
             child: ListView(
@@ -256,10 +267,9 @@ class _HomeScreenState extends State<HomeScreen>
                     },
                     itemCount: state.amazonResults.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (state.amazonResults[index] != null) {
+                      if (state.amazonResults.length > 0) {
                         return _buildItem(index, state);
                       }
-                      return CircularProgressIndicator();
                     },
                   ),
                 ),
@@ -269,20 +279,79 @@ class _HomeScreenState extends State<HomeScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        'Description',
+                        'Product Details',
                         style: TextStyle(
                           fontSize: 22.0,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(height: 10.0),
-                      Text(
-                        "Google",
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 16.0,
-                        ),
+                      SizedBox(height: 25.0),
+                      RichText(
+                          text: TextSpan(
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
+                              text: "Product Name : ",
+                              children: [
+                            TextSpan(
+                                text:
+                                    "${state.amazonResults[_selectedPage]["productName"]}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ])),
+                      SizedBox(
+                        height: 10.0,
                       ),
+                      RichText(
+                          text: TextSpan(
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
+                              text: "Price : ",
+                              children: [
+                            TextSpan(
+                                text:
+                                    "${state.amazonResults[_selectedPage]["price"]}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
+                            TextSpan(
+                                text:
+                                    "${state.amazonResults[_selectedPage]["productOldPrice"]}",
+                                style: TextStyle(
+                                    decoration: TextDecoration.lineThrough))
+                          ])),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      RichText(
+                          text: TextSpan(
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
+                              text: "Savings : ",
+                              children: [
+                            TextSpan(
+                                text:
+                                    "${state.amazonResults[_selectedPage]["productOldPrice"]}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ])),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      RichText(
+                          text: TextSpan(
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: 16.0),
+                              text: "Rating : ",
+                              children: [
+                            TextSpan(
+                                text:
+                                    "${state.amazonResults[_selectedPage]["productRating"]}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ]))
                     ],
                   ),
                 ),

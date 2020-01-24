@@ -2,6 +2,9 @@ import 'package:compareprice/redux/modal/appModal.dart';
 import 'package:compareprice/screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'dart:async';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 class DataSearch extends SearchDelegate<String> {
   final prodcutNames = [
@@ -42,26 +45,73 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // send data to redux
-    StoreProvider.of<AppState>(context).dispatch(SearchKeyWord(query));
-    StoreProvider.of<AppState>(context).dispatch(GetResults());
-
-    Future.delayed(const Duration(seconds: 8), () {
-      close(context, null);
+    void navigationScreen() {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => HomeScreen()));
-    });
+    }
+
+    startTime() async {
+      var _duration = Duration(seconds: 10);
+      return Timer(_duration, navigationScreen);
+    }
+
+    getData() async {
+      print("Fetching Data....");
+      
+      String url =
+          "https://compareprice-flask.herokuapp.com/api/getPriceDetails?searchKeyWord=${query}";
+      Response response = await get(url);
+      String json = response.body;
+      Map<String, dynamic> results = jsonDecode(json);
+      List<dynamic> amazonResults;
+      // print(results["amazonResults"]);
+      amazonResults = results["amazonResults"];
+
+      StoreProvider.of<AppState>(context)
+          .dispatch(AmazonResults(amazonResults));
+      close(context, null);
+    }
+
+    void _getResults() {
+      getData();
+    }
+
+    // send data to redux
+    StoreProvider.of<AppState>(context).dispatch(SearchKeyWord(query));
+    StoreProvider.of<AppState>(context).dispatch(AmazonResults([]));
+    AlertDialog(
+      title: Text("loading"),
+    );
+
+    _getResults();
+    // startTime();
+
     return Text(" ");
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    void _showLoader() {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Container(
+                  height: 40.0,
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  )),
+            );
+          });
+    }
+
     final suggestionList = query.isEmpty
         ? recentSearches
         : prodcutNames.where((p) => p.startsWith(query)).toList();
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () {
+          _showLoader();
           query = suggestionList[index];
           showResults(context);
         },
