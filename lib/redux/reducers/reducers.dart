@@ -19,6 +19,9 @@ AppState reducer(AppState prevState, dynamic action) {
   if (action is FlipKartResults) {
     newState.flipKartResults = action.payload;
   }
+  if (action is TopResults) {
+    newState.topResults = action.payload;
+  }
 
   if (action is GetResults) {
     getData() async {
@@ -28,10 +31,10 @@ AppState reducer(AppState prevState, dynamic action) {
       Response response = await get(url);
       String json = response.body;
       Map<String, dynamic> results = jsonDecode(json);
-      List<dynamic> amazonResults;
+      List<dynamic> topResults;
       // print(results["amazonResults"]);
-      amazonResults = results["amazonResults"];
-      newState.amazonResults = amazonResults;
+      topResults = results["topResults"];
+      newState.topResults = topResults;
       print("Got Results !!");
     }
 

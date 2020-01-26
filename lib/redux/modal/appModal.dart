@@ -4,6 +4,7 @@ class AppState {
   String searchKeyWord;
   List<dynamic> amazonResults;
   List<dynamic> flipKartResults;
+  List<dynamic> topResults;
   AppState({
     @required this.searchKeyWord,
   });
@@ -12,12 +13,13 @@ class AppState {
     searchKeyWord = another.searchKeyWord;
     amazonResults = another.amazonResults;
     flipKartResults = another.flipKartResults;
+    topResults = another.topResults;
   }
 
   String get getSearchKeyWord => searchKeyWord;
   List<dynamic> get getAmazonResults => amazonResults;
   List<dynamic> get getFlipKartResults => flipKartResults;
- 
+  List<dynamic> get getTopResults => topResults;
 }
 
 class SearchKeyWord {
@@ -37,4 +39,9 @@ class FlipKartResults {
 
 class GetResults {
   GetResults();
+}
+
+class TopResults {
+  final List<dynamic> payload;
+  TopResults(this.payload);
 }

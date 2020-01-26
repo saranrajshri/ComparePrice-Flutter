@@ -57,18 +57,17 @@ class DataSearch extends SearchDelegate<String> {
 
     getData() async {
       print("Fetching Data....");
-      
+
       String url =
           "https://compareprice-flask.herokuapp.com/api/getPriceDetails?searchKeyWord=${query}";
       Response response = await get(url);
       String json = response.body;
       Map<String, dynamic> results = jsonDecode(json);
-      List<dynamic> amazonResults;
+      List<dynamic> topResults;
       // print(results["amazonResults"]);
-      amazonResults = results["amazonResults"];
+      topResults = results["topResults"];
 
-      StoreProvider.of<AppState>(context)
-          .dispatch(AmazonResults(amazonResults));
+      StoreProvider.of<AppState>(context).dispatch(TopResults(topResults));
       close(context, null);
     }
 
@@ -78,7 +77,7 @@ class DataSearch extends SearchDelegate<String> {
 
     // send data to redux
     StoreProvider.of<AppState>(context).dispatch(SearchKeyWord(query));
-    StoreProvider.of<AppState>(context).dispatch(AmazonResults([]));
+    StoreProvider.of<AppState>(context).dispatch(TopResults([]));
     AlertDialog(
       title: Text("loading"),
     );

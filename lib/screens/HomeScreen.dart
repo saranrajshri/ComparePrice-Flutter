@@ -23,8 +23,8 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   _buildItem(int index, AppState state) {
-    Map<dynamic, dynamic> data = state.amazonResults[index];
-    if (state.amazonResults[index] != null) {
+    Map<dynamic, dynamic> data = state.topResults[index];
+    if (state.topResults[index] != null) {
       return AnimatedBuilder(
         animation: _pageController,
         builder: (BuildContext context, Widget widget) {
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "AMAZON",
+                            "${data["productAvailAt"]}",
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15.0,
@@ -265,9 +265,9 @@ class _HomeScreenState extends State<HomeScreen>
                         _selectedPage = index;
                       });
                     },
-                    itemCount: state.amazonResults.length,
+                    itemCount: state.topResults.length,
                     itemBuilder: (BuildContext context, int index) {
-                      if (state.amazonResults.length > 0) {
+                      if (state.topResults.length > 0) {
                         return _buildItem(index, state);
                       }
                     },
@@ -294,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen>
                               children: [
                             TextSpan(
                                 text:
-                                    "${state.amazonResults[_selectedPage]["productName"]}",
+                                    "${state.topResults[_selectedPage]["productName"]}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),
@@ -310,13 +310,13 @@ class _HomeScreenState extends State<HomeScreen>
                               children: [
                             TextSpan(
                                 text:
-                                    "${state.amazonResults[_selectedPage]["price"]}",
+                                    "${state.topResults[_selectedPage]["price"]}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),
                             TextSpan(
                                 text:
-                                    "${state.amazonResults[_selectedPage]["productOldPrice"]}",
+                                    "${state.topResults[_selectedPage]["productOldPrice"]}",
                                 style: TextStyle(
                                     decoration: TextDecoration.lineThrough))
                           ])),
@@ -331,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen>
                               children: [
                             TextSpan(
                                 text:
-                                    "${state.amazonResults[_selectedPage]["productOldPrice"]}",
+                                    "${state.topResults[_selectedPage]["productOldPrice"]}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),
@@ -347,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen>
                               children: [
                             TextSpan(
                                 text:
-                                    "${state.amazonResults[_selectedPage]["productRating"]}",
+                                    "${state.topResults[_selectedPage]["productRating"]}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                 )),

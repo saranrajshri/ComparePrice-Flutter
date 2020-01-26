@@ -38,10 +38,19 @@ class _SplashScreenState extends State<SplashScreen> {
       converter: (store) => store.state,
       builder: (context, state) {
         return Scaffold(
-          body: Center(
-            child: Text("Loading"),
-          ),
-        );
+            body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: Image(image: AssetImage('assets/logo.png')),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text("Please Wait....")
+          ],
+        ));
       },
     );
   }
