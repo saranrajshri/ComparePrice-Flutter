@@ -1,8 +1,10 @@
 import 'package:compareprice/components/DataSearch.dart';
 import 'package:compareprice/redux/modal/appModal.dart';
+import 'package:compareprice/screens/ProductScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:badges/badges.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -43,12 +45,14 @@ class _HomeScreenState extends State<HomeScreen>
         },
         child: GestureDetector(
           onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (_) => PlantScreen(plant: plants[index]),
-            //   ),
-            // );
+            StoreProvider.of<AppState>(context)
+                .dispatch(SelectedProduct(index));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ProductScreen(),
+              ),
+            );
           },
           child: Stack(
             alignment: Alignment.center,
@@ -143,7 +147,8 @@ class _HomeScreenState extends State<HomeScreen>
                     color: Colors.white,
                     size: 30.0,
                   ),
-                  onPressed: () => print('Add to cart'),
+                  onPressed: () =>
+                      StoreProvider.of<AppState>(context).dispatch(AddToCart()),
                 ),
               ),
             ],
@@ -179,11 +184,23 @@ class _HomeScreenState extends State<HomeScreen>
                           showSearch(context: context, delegate: DataSearch());
                         },
                       ),
-                      Icon(
-                        Icons.shopping_cart,
-                        size: 30.0,
-                        color: Colors.black,
-                      ),
+                      state.cart != 0 && state.cart !=null
+                          ? Badge(
+                              badgeContent: Text(
+                                '${state.cart}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              child: Icon(
+                                Icons.shopping_cart,
+                                size: 30.0,
+                                color: Colors.black,
+                              ),
+                            )
+                          : Icon(
+                              Icons.shopping_cart,
+                              size: 30.0,
+                              color: Colors.black,
+                            ),
                     ],
                   ),
                 ),

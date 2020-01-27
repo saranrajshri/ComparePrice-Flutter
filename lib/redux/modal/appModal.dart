@@ -5,6 +5,8 @@ class AppState {
   List<dynamic> amazonResults;
   List<dynamic> flipKartResults;
   List<dynamic> topResults;
+  int selectedProduct;
+  int cart;
   AppState({
     @required this.searchKeyWord,
   });
@@ -14,12 +16,17 @@ class AppState {
     amazonResults = another.amazonResults;
     flipKartResults = another.flipKartResults;
     topResults = another.topResults;
+    selectedProduct = another.selectedProduct;
+    cart = another.cart;
   }
 
   String get getSearchKeyWord => searchKeyWord;
   List<dynamic> get getAmazonResults => amazonResults;
   List<dynamic> get getFlipKartResults => flipKartResults;
   List<dynamic> get getTopResults => topResults;
+  int get getSelectedProdcut => selectedProduct;
+  int get getCart => cart;
+
 }
 
 class SearchKeyWord {
@@ -44,4 +51,13 @@ class GetResults {
 class TopResults {
   final List<dynamic> payload;
   TopResults(this.payload);
+}
+
+class SelectedProduct {
+  final int payload;
+  SelectedProduct(this.payload);
+}
+
+class AddToCart{
+  AddToCart();
 }

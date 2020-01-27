@@ -22,6 +22,17 @@ AppState reducer(AppState prevState, dynamic action) {
   if (action is TopResults) {
     newState.topResults = action.payload;
   }
+  if (action is SelectedProduct) {
+    newState.selectedProduct = action.payload;
+  }
+  if (action is AddToCart) {
+    if (newState.cart == null) {
+      newState.cart = 1;
+    } else {
+      newState.cart += 1;
+    }
+    print(newState.cart);
+  }
 
   if (action is GetResults) {
     getData() async {
