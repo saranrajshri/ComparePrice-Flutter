@@ -1,4 +1,4 @@
-# compareprice
+# Compareprice
 
 A new Flutter project.
 
